@@ -21,24 +21,23 @@ function checkDrivingDistance() {
 
     result.textContent = "Calcul en cours...";
 
-    const base = normalizeAddress(baseRaw);
-    const test = normalizeAddress(testRaw);
-
     const directionsService = new google.maps.DirectionsService();
 
     directionsService.route({
-        origin: base,
-        destination: test,
+        origin: baseRaw,
+        destination: testRaw,
         travelMode: google.maps.TravelMode.DRIVING
     }, (res, status) => {
         if (status === "OK" && res.routes[0]) {
-            const distMeters = res.routes[0].legs[0].distance.value;
-            const distKm = distMeters / 1000;
+            const leg = res.routes[0].legs[0];
+            const distKm = leg.distance.value / 1000;
+            const durationMin = leg.duration.value / 60; // en minutes
             const maxKm = 10;
             const isIn = distKm <= maxKm;
 
             result.innerHTML = `
                 Distance en voiture : <b>${distKm.toFixed(2)} km</b><br>
+                Temps estimé : <b>${Math.round(durationMin)} min</b><br>
                 Distance max autorisée : <b>${maxKm} km</b><br>
                 Résultat : <b style="color:${isIn?'green':'red'}">
                 ${isIn ? "Accessible en voiture" : "Trop loin"}
