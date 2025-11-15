@@ -1,30 +1,3 @@
-// Géocodeur Google Maps côté client
-function geocode(address) {
-    return new Promise((resolve, reject) => {
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ address }, (results, status) => {
-            if (status === "OK" && results[0]) {
-                const loc = results[0].geometry.location;
-                resolve({ lat: loc.lat(), lon: loc.lng() });
-            } else {
-                reject(new Error("Adresse introuvable : " + address + " (status: " + status + ")"));
-            }
-        });
-    });
-}
-
-// Calcul distance Haversine
-function distanceKm(lat1, lon1, lat2, lon2) {
-    const R = 6371; // km
-    const dLat = (lat2-lat1)*Math.PI/180;
-    const dLon = (lon2-lon1)*Math.PI/180;
-    const a = Math.sin(dLat/2)**2 +
-              Math.cos(lat1*Math.PI/180) *
-              Math.cos(lat2*Math.PI/180) *
-              Math.sin(dLon/2)**2;
-    return 2*R*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
-
 // Normaliser l'adresse pour Montréal/Québec
 function normalizeAddress(addr) {
     return addr
@@ -35,29 +8,47 @@ function normalizeAddress(addr) {
         .trim();
 }
 
-// Vérification du rayon
-document.getElementById("checkBtn").addEventListener("click", async () => {
+// Vérification distance en voiture max 10 km
+function checkDrivingDistance() {
     const baseRaw = document.getElementById("baseAddress").value;
     const testRaw = document.getElementById("testAddress").value;
     const result = document.getElementById("result");
 
+    if (!baseRaw || !testRaw) {
+        result.innerHTML = "<b style='color:red'>Veuillez entrer les deux adresses.</b>";
+        return;
+    }
+
     result.textContent = "Calcul en cours...";
 
-    try {
-        const basePos = await geocode(normalizeAddress(baseRaw));
-        const testPos = await geocode(normalizeAddress(testRaw));
+    const base = normalizeAddress(baseRaw);
+    const test = normalizeAddress(testRaw);
 
-        const dist = distanceKm(basePos.lat, basePos.lon, testPos.lat, testPos.lon);
-        const isIn = dist <= 25;
+    const directionsService = new google.maps.DirectionsService();
 
-        result.innerHTML = `
-            Distance : <b>${dist.toFixed(2)} km</b><br>
-            Rayon autorisé : <b>25 km</b><br>
-            Résultat : <b style="color:${isIn ? 'green' : 'red'}">
-            ${isIn ? "DANS le rayon" : "HORS du rayon"}
-            </b>
-        `;
-    } catch (e) {
-        result.innerHTML = `<b style="color:red">${e.message}</b>`;
-    }
-});
+    directionsService.route({
+        origin: base,
+        destination: test,
+        travelMode: google.maps.TravelMode.DRIVING
+    }, (res, status) => {
+        if (status === "OK" && res.routes[0]) {
+            const distMeters = res.routes[0].legs[0].distance.value;
+            const distKm = distMeters / 1000;
+            const maxKm = 10;
+            const isIn = distKm <= maxKm;
+
+            result.innerHTML = `
+                Distance en voiture : <b>${distKm.toFixed(2)} km</b><br>
+                Distance max autorisée : <b>${maxKm} km</b><br>
+                Résultat : <b style="color:${isIn?'green':'red'}">
+                ${isIn ? "Accessible en voiture" : "Trop loin"}
+                </b>
+            `;
+        } else {
+            result.innerHTML = `<b style="color:red">Adresse introuvable ou erreur : ${status}</b>`;
+        }
+    });
+}
+
+// Bouton
+document.getElementById("checkBtn").addEventListener("click", checkDrivingDistance);
