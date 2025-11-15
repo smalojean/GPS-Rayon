@@ -1,19 +1,16 @@
 // Géocodage OpenStreetMap
 async function geocode(address) {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&region=ca&key=AIzaSyCqRMSN-XtN4CSUXYIoJj59cv4HvS9Fj4M`;
-
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (data.status !== "OK" || !data.results.length) {
-        throw new Error("Adresse introuvable : " + address);
-    }
-
-    const loc = data.results[0].geometry.location;
-    return {
-        lat: loc.lat,
-        lon: loc.lng
-    };
+    return new Promise((resolve, reject) => {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, (results, status) => {
+            if (status === "OK" && results[0]) {
+                const loc = results[0].geometry.location;
+                resolve({ lat: loc.lat(), lon: loc.lng() });
+            } else {
+                reject(new Error("Adresse introuvable : " + address));
+            }
+        });
+    });
 }
 
 // Calcul distance selon Haversine
