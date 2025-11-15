@@ -6,13 +6,13 @@ body {
 }
 
 .container {
-    width: 95%;        /* presque toute la largeur de l'écran */
-    max-width: 420px;  /* mais pas trop large sur desktop */
-    margin: 20px auto;
+    width: 100%;       /* prend toute la largeur disponible */
+    max-width: none;    /* pas de limite pour mobile */
+    margin: 0 auto;
     background: #303030;
     color: white;
-    padding: 30px;
-    border-radius: 12px;
+    padding: 25px;
+    border-radius: 10px;
     box-shadow: 0 0 15px #0005;
     box-sizing: border-box;
 }
@@ -20,35 +20,35 @@ body {
 h2 {
     margin-top: 0;
     text-align: center;
-    font-size: 1.6em;   /* plus gros titre */
+    font-size: 1.6em;
 }
 
 label {
     display: block;
     margin-bottom: 6px;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 input {
     width: 100%;
-    padding: 16px;      /* plus gros padding */
+    padding: 16px;
     margin-bottom: 18px;
     border: 1px solid #aaa;
     border-radius: 6px;
-    font-size: 1.2em;   /* texte plus lisible */
+    font-size: 1.2em;
     box-sizing: border-box;
 }
 
 button {
     width: 100%;
-    padding: 18px;      /* gros bouton facile à toucher */
+    padding: 18px;
     background: #007bff;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 1.2em;   /* texte bouton plus gros */
+    font-size: 1.2em;
 }
 
 button:hover {
@@ -57,28 +57,14 @@ button:hover {
 
 #result {
     margin-top: 25px;
-    font-size: 1.3em;   /* résultat facile à lire */
+    font-size: 1.3em;
     line-height: 1.5;
     word-wrap: break-word;
 }
 
-/* Responsive très petit écran */
-@media (max-width: 480px) {
+/* Optionnel : grands écrans */
+@media (min-width: 600px) {
     .container {
-        margin: 15px;
-        padding: 25px;
-    }
-
-    h2 {
-        font-size: 1.5em;
-    }
-
-    input, button {
-        font-size: 1.2em;
-        padding: 16px;
-    }
-
-    #result {
-        font-size: 1.2em;
+        max-width: 420px; /* limite pour desktop/tablette */
     }
 }
