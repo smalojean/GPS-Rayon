@@ -6,48 +6,49 @@ body {
 }
 
 .container {
-    max-width: 420px;
-    width: 90%; /* largeur adaptative */
-    margin: 40px auto;
+    width: 95%;        /* presque toute la largeur de l'écran */
+    max-width: 420px;  /* mais pas trop large sur desktop */
+    margin: 20px auto;
     background: #303030;
     color: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #0003;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #0005;
     box-sizing: border-box;
 }
 
 h2 {
     margin-top: 0;
     text-align: center;
-    font-size: 1.4em;
+    font-size: 1.6em;   /* plus gros titre */
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     font-weight: bold;
+    font-size: 1.1em;
 }
 
 input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
+    padding: 16px;      /* plus gros padding */
+    margin-bottom: 18px;
     border: 1px solid #aaa;
-    border-radius: 5px;
-    font-size: 1em;
+    border-radius: 6px;
+    font-size: 1.2em;   /* texte plus lisible */
     box-sizing: border-box;
 }
 
 button {
     width: 100%;
-    padding: 14px;
+    padding: 18px;      /* gros bouton facile à toucher */
     background: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.2em;   /* texte bouton plus gros */
 }
 
 button:hover {
@@ -55,29 +56,29 @@ button:hover {
 }
 
 #result {
-    margin-top: 20px;
-    font-size: 1.1em;
-    line-height: 1.4;
+    margin-top: 25px;
+    font-size: 1.3em;   /* résultat facile à lire */
+    line-height: 1.5;
     word-wrap: break-word;
 }
 
-/* Responsive pour petits écrans */
+/* Responsive très petit écran */
 @media (max-width: 480px) {
     .container {
-        margin: 20px;
-        padding: 20px;
+        margin: 15px;
+        padding: 25px;
     }
 
     h2 {
-        font-size: 1.2em;
+        font-size: 1.5em;
     }
 
     input, button {
-        font-size: 1em;
-        padding: 12px;
+        font-size: 1.2em;
+        padding: 16px;
     }
 
     #result {
-        font-size: 1em;
+        font-size: 1.2em;
     }
 }
