@@ -35,11 +35,18 @@ function checkDrivingDistance() {
             const maxKm = 10;
             const isIn = distKm <= maxKm;
 
+            // Déterminer couleur du temps
+            let timeColor;
+            if (durationMin <= 10) timeColor = 'green';
+            else if (durationMin <= 20) timeColor = 'yellow';
+            else if (durationMin <= 25) timeColor = 'orange';
+            else timeColor = 'red';
+
             result.innerHTML = `
                 Distance en voiture : <b>${distKm.toFixed(2)} km</b><br>
-                Temps estimé : <b>${Math.round(durationMin)} min</b><br>
+                Temps estimé : <b style="color:${timeColor}">${Math.round(durationMin)} min</b><br>
                 Distance max autorisée : <b>${maxKm} km</b><br>
-                Résultat : <b style="color:${isIn?'green':'red'}">
+                Résultat : <b style="color:${isIn ? 'green' : 'red'}">
                 ${isIn ? "Accessible en voiture" : "Trop loin"}
                 </b>
             `;
