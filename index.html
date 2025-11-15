@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Vérifier un rayon de 25 km</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Vérifier si une adresse est dans un rayon de 25 km</h2>
+
+    <label>Adresse de départ :</label>
+    <input type="text" id="baseAddress" placeholder="Ex : 123 rue Principale, Montréal">
+
+    <label>Adresse à tester :</label>
+    <input type="text" id="testAddress" placeholder="Ex : 75 rue Sainte-Catherine, Montréal">
+
+    <button id="checkBtn">Vérifier</button>
+
+    <div id="result"></div>
+</div>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqRMSN-XtN4CSUXYIoJj59cv4HvS9Fj4M&libraries=routes,places=async">
+</script>
+
+
+<script src="script.js"></script>
+</body>
+</html>
+<!-- 10941 Rue Notre Dame E, Montréal, QC H1B 2V1
+5105 Rue Sainte-Catherine E, Montréal, QC H1V 2A5 -->
