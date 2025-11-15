@@ -1,6 +1,6 @@
 // Géocodage OpenStreetMap
 async function geocode(address) {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&region=ca&key=TA_CLE_API`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&region=ca&key=AIzaSyCqRMSN-XtN4CSUXYIoJj59cv4HvS9Fj4M`;
 
     const res = await fetch(url);
     const data = await res.json();
